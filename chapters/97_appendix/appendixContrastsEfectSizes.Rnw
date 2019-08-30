@@ -1,0 +1,33 @@
+<<GlobalsAppendixContrastsEffectsSizes, echo=FALSE, include=FALSE>>=
+  presentEffectSizeTable <- function(bsANOVA){
+    	effectSizes <- renameCoeficientNames(bsANOVA$`EffectSize - fullmodel`,useRowNamesInFirstColumn=TRUE)
+      
+    	presentTable(effectSizes, align = c("l","r","r","r"), digits=2) %>%
+    	row_spec(10, hline_after = T) %>%
+    	footnote(general = "TT - ToolText, TJ - ToolJava, SH - Sherlock, AnoN - AllnoNOR, AN - AllNOR", threeparttable = T)
+    }
+    
+  presentSimpleeffectsEffectsSizeTable <- function(bsSimpleEffects) {
+    effectSizes <- renameSimpleEffectSizeCoeficientNames(bsSimpleEffects$`EffectSize - fullmodel`,useRowNamesInFirstColumn=TRUE)
+  	
+  	presentTable(effectSizes, align = c("l","r","r","r"), digits=2) %>%
+  	row_spec(6, hline_after = T) %>%
+  	footnote(general = "TT - ToolText, TJ - ToolJava, SH - Sherlock", threeparttable = T)
+  }
+@
+
+\begin{table}[ht]
+  \centering
+  \caption{Contrasts effect sizes for SOCO D1}\label{tbl:effectSizesSOCOD1}
+  <<TableeffectSizesSOCOD1, echo=FALSE, results='asis'>>=
+      presentEffectSizeTable(bsANOVA_SOCO_D1)
+  @
+\end{table}
+
+\begin{table}
+	\centering
+	\caption{Simple effect analysis effect sizes for SOCO D1}\label{tbl:effectSizesSEASOCOD1}
+	<<TableeffectSizesSEASOCOD1, echo=FALSE, results='asis'>>=
+	presentSimpleeffectsEffectsSizeTable(bsSimpleEffects_SOCO_D1)
+	@
+\end{table}

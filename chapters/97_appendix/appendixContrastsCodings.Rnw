@@ -1,0 +1,40 @@
+<<GlobalsAppendixContrasts, echo=FALSE, include=FALSE>>=
+#source("08_analysis/statisticsHeader.R", encoding = "UTF-8" )
+presentContrastTable <- function(variableVector,firstColumnName){
+  dfm <- DataFrameMaipulator$new();
+  
+  removeDot <- function(contrastsTable){
+      for(columnName in colnames(contrastsTable)){
+        newName <- str_replace_all(columnName,"[.].*","")
+        contrastsTable <- dfm$changeColumnNameInDataFrame(contrastsTable,columnName,newName)
+       }
+       return(contrastsTable)
+  }
+  
+  contrastTable <- contrasts(variableVector)
+  contrastTable <- dfm$transponseDataFrame(contrastTable, firstColumnAsHeader = FALSE)
+  if(firstColumnName == "Tool")
+    contrastTable <- removeDot(contrastTable)
+  contrastTable <- dfm$changeColumnNameInDataFrame(contrastTable,"OldColumns",firstColumnName)
+  presentTable(contrastTable,align = "c")
+}
+@
+
+To have the planned comparisons 
+
+\begin{table}[ht]
+  \centering
+  \caption{Tool contrast codings}\label{tbl:socoToolContrastsCodings}
+    <<socoToolContrastsCodings, echo=FALSE, results='asis'>>=
+    	presentContrastTable(SOCO_D1$Tool,"Tool") %>% 
+	    add_header_above(c(" ", "Text" = 3, "Java" = 3), bold = T)
+    @
+\end{table}
+
+\begin{table}[ht]
+  \centering
+  \caption{SOCO technique contrast codings}\label{tbl:socotechniqueContrastsCodings}
+    <<socotechniqueContrastsCodings, echo=FALSE, results='asis'>>=
+    	presentContrastTable(SOCO_D1$Technique,"Technique")
+    @
+\end{table}

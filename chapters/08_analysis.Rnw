@@ -1,0 +1,288 @@
+<<GlobalsChapterAnalysis, echo=FALSE, include=FALSE>>= 
+  drawBoxPlotbyToolAndTechnique <- function(datasetDF, metric, group){
+    graphBuilderHelp$xAxisTitle = "Preprocessing technique"
+    graphBuilderHelp$yAxisTitle = paste0(metric,"")
+    graphBuilderHelp$graphTitle = paste0(metric," in ",group," assignments")
+    graphBuilderHelp$facetWrapVariable = ~Tool
+    graphBuilderHelp$xAxisLabelAngle = 90
+    return(graphBuilderHelp$showBoxPlot(datasetDF,TECHNIQUE_VAR, DEPENDENT_VAR))
+  }
+  
+  showMeanComparisonGraph <- function(dataFrame) {
+    graphBuilderHelp$xAxisTitle = "Preprocessing technique"
+    graphBuilderHelp$yAxisTitle = "F1"
+    graphBuilderHelp$facetWrapVariable = NULL
+    graphBuilderHelp$xAxisLabelAngle = 90
+    graphBuilderHelp$legendTitle = "Tool"
+    graphBuilderHelp$graphTitle = "Mean comparison"
+    graphBuilderHelp$showMeanComparisonGraph(dataFrame,xVarName = TECHNIQUE_VAR,yVarName = DEPENDENT_VAR,legendVarName = TOOL_VAR) +  
+       scale_color_manual(values=c("#F15854", "#60BD68","#5DA5DA","#FAA43A","#4D4D4D","#F17CB0","#B2912F","#DECF3F")) 
+  }
+  
+   correctBootstrapInfo <- function(dataFrame,bsANOVA,fileName,getFullModelFunction){
+    results <- list()
+    bootstraps <- bsANOVA$`Bootstrap Info`
+    orgFullModel <- getFullModelFunction(dataFrame)
+    
+    results <- listmHelp$addElementToList(results,bootstraps)
+    results <- listmHelp$addElementToList(results,createAnovaResult(orgFullModel, bootstraps))
+    results <- listmHelp$addElementToList(results,summary(orgFullModel))
+    results <- listmHelp$addElementToList(results,createCoeffiecientsResult(orgFullModel,bootstraps))
+    
+    bootstrapsFull <- bsANOVA$`Bootstrap Info - full`
+    results <- listmHelp$addElementToList(results,createEffectSizeResult(orgFullModel,bootstrapsFull))
+    results <- listmHelp$addElementToList(results,bootstrapsFull)
+    names(results) <- c("Bootstrap Info","ANOVA", "SummaryFullModel", "Coeficients","EffectSize - fullmodel","Bootstrap Info - full")
+    bsANOVA <- results
+    save(bsANOVA, file = paste0("08_analysis/",fileName,"_bootstrap_corrected.RData"))
+  }
+  
+  
+  
+   presentAnovaTable <- function(bsANOVA){
+    anovaInfo <- bsANOVA$ANOVA
+    anovaInfo$`Pr(>F)` = format(round(anovaInfo$`Pr(>F)`,4), nsmall=4)
+    anovaInfo$p.boot = format(round(anovaInfo$p.boot ,4), nsmall=4, scientific=FALSE)
+  	presentTable(anovaInfo, align="r", digits = c(2,3,0,0,1,4,4)) %>%
+  	row_spec(3, bold = T)
+   }
+   
+   boldSignificantContrasts <- function(coeficients,pValueTreshold=0.01){
+    	coeficients <- data.frame(Name = row.names(coeficients), coeficients)
+      coeficients$p.boot <- format(round(coeficients$p.boot, 4), nsmall=4, scientific=FALSE)
+    	coeficients <- coeficients %>% mutate(Name= cell_spec(
+            Name, "latex", bold = ifelse(p.boot < pValueTreshold, "true", "false")
+            ), 
+            p.boot = cell_spec(
+            p.boot, "latex", bold = ifelse(p.boot < pValueTreshold, "true", "false")
+            ))  
+    	return(coeficients)
+   }
+   
+   presentCoeficientTable <- function(bsANOVA,pValueTreshold=0.01){
+      coeficients <- renameCoeficientNames(bsANOVA$Coeficients)
+    	coeficients <- boldSignificantContrasts(coeficients,pValueTreshold)
+      coeficients <- renameCoeficientNames(coeficients)
+    	
+    	presentTable(coeficients, align = "r", digits = c(3,3,0,2,4,4)) %>%
+    	row_spec(10, hline_after = T) %>%
+    	footnote(general = "TT - ToolText, TJ - ToolJava, SH - Sherlock, AnoN - AllnoNOR, AN - AllNOR", threeparttable = T)
+   }
+ 
+   presentSimpleEffectsCoeficientTable <- function(bsSimpleEffects,pValueTreshold=0.01){
+      coeficients <- renameSimpleEffectSizeCoeficientNames(bsSimpleEffects$Coeficients)
+      coeficients <- boldSignificantContrasts(coeficients,pValueTreshold) 
+      coeficients <- renameSimpleEffectSizeCoeficientNames(coeficients)
+    	
+    	
+    	presentTable(coeficients, align = "r", digits = c(3,3,0,2,4,4)) %>%
+    	row_spec(6, hline_after = T) %>%
+    	footnote(general = "TT - ToolText, TJ - ToolJava, SH - Sherlock", threeparttable = T)
+    } 
+   
+ 
+    
+  presentD1D2D3D4SignificanceAnalysisTable <- function(){
+        analysisTable1 <- getD1D2D3D4SignificanceAnalysisTable(NoPPTvsPPT)
+        analysisTable2 <- getD1D2D3D4SignificanceAnalysisTable(SinglevsCombo)[,"Significant"]
+        analysisTable3 <- getD1D2D3D4SignificanceAnalysisTable(RCvsCCR)[,"Significant"]
+        analysisTable4 <- getD1D2D3D4SignificanceAnalysisTable(Allv3vsAllv4)[,"Significant"]
+    
+        analysisTable <- data.frame(Tool=rownames(analysisTable1),
+                                    PPT=analysisTable1[,"Significant"],
+                                    Combo=analysisTable2,
+                                    CCR=analysisTable3,
+                                    AllNOR=analysisTable4)
+
+        presentTable(analysisTable) %>%
+        add_header_above(c("","NoPPT vs","Single vs","RC vs","AllnoNOR vs"),bold = T)  %>%
+    	  footnote(general = c("Symbol + means effect was positive and - means effect was negative.", "SH - Sherlock"), threeparttable = T)
+  }
+  
+  getD1D2D3D4SignificanceAnalysisTable <-  function (contrast){  
+    filterDatasetsByTool <- function(datasets,tool) {
+      newList <- list()
+      for(dataset in datasets){
+        d <- dataset
+        d <- d[d[,TOOL_VAR]==tool,]
+        newList <- listmHelp$addElementToList(newList,d)
+      }  
+      names(newList)<-c("D1","D2","D3","D4")
+      return(newList)
+    }
+    
+    bsSimpleEffectsAnalsys <- list(bsSimpleEffects_SOCO_D1$Coeficients,
+                                   bsSimpleEffects_SOCO_D2$Coeficients,
+                                   bsSimpleEffects_SOCO_D3$Coeficients,
+                                   bsSimpleEffects_SOCO_D4$Coeficients)
+    names(bsSimpleEffectsAnalsys) <- c("D1","D2","D3","D4")
+    
+    datasets <- list(SOCO_D1,SOCO_D2,SOCO_D3,SOCO_D4)
+    names(datasets) <- c("D1","D2","D3","D4")
+    
+    tools <- c("SIM","JPlag","SH")
+    toolTypes <- c("TJ","TT")
+
+      dataFrame <- data.frame(Significant=character(),NotSignificant=character())
+      for(toolType in toolTypes){
+        for(tool in tools){
+          toolTypeName = "text"
+          if(toolType=="TJ") toolTypeName = "java"
+          if(tool=="SH"){
+            fullToolName <- paste0("Sherlock","-",toolTypeName)
+          }
+          else{
+            fullToolName <- paste0(tool,"-",toolTypeName)
+          }
+          
+          analsyisResultsForTool <- getRowForSignificanceAnalysis(bsSimpleEffectsAnalsys,paste0(toolType,".",tool,".",contrast))
+          significantDatasetsNames <- strsplit(analsyisResultsForTool[[1]]," ")[[1]]
+          #print(fullToolName)
+          datasetsFiltered <- filterDatasetsByTool(datasets,fullToolName)
+
+          significantResultForToolWithMarking = markRowFroSignificanceAnalysis(significantDatasetsNames,
+                                                                               datasetsFiltered,
+                                                                               DEPENDENT_VAR,
+                                                                               TECHNIQUE_VAR, 
+                                                                               contrast)
+          dataFrameRow <- data.frame(Significant=significantResultForToolWithMarking,NotSignificant=analsyisResultsForTool[[2]])
+          rownames(dataFrameRow) <- paste0(tool,"-",toolTypeName)
+          dataFrame <- rbind(dataFrame,dataFrameRow)
+        }
+      }
+    dataFrame
+  }  
+  
+
+@ 
+
+This Chapter provides the complete results of this research. Before the results are presented there is a description of some preparations that are important for the analysis.
+
+\section{SOCO dataset analysis}
+
+\begin{table} [bt]
+	\centering
+	\caption{SOCO dataset structure for experiment} \label{tbl:socoSubsetStructure}
+	\rowcolors{2}{gray!6}{white}
+	\begin{tabular}{c | c c | r r r r} 
+		\toprule
+		&  \multicolumn{2}{c}{\textbf{Assignment}} & \multicolumn{4}{c}{\textbf{Number of}} \\
+		\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-7}
+		\textbf{Collection} & \textbf{original} & \textbf{new} & \multicolumn{1}{c}{\textbf{Files}} & \multicolumn{1}{c}{\textbf{Plagiarized files}} & \multicolumn{1}{c}{\textbf{Matches}} & \multicolumn{1}{c}{\textbf{Plagiarised matches}} \\ 
+		\midrule 
+		 	Test & A1 & D1 & 188 &  86 & 17,578&  54  \\
+		 	Test & A2 & D2 & 175 &  75 & 15,225&  47  \\
+		 	Test & B1 & D3 & 218 & 124 & 23,653&  73  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsubsection{Preparation for statistical analysis}
+
+The full model used was: 
+\begin{gather*}
+lmer(F1 \sim Tool + Technique + Tool:Technique + \notag\\
+             (1 | Participant) + (1 | Tool:Participant) + (1 | Technique:Participant), \notag\\ 
+     data = SOCO.Dn, REML = FALSE)
+\end{gather*}
+The null model was: 
+\begin{gather*}
+lmer(F1 \sim (1 | Participant) + (1 | Tool:Participant) + (1 | Technique:Participant), \notag\\
+     data = SOCO.Dn, REML = FALSE)
+\end{gather*}
+
+The full model for the simple effects analysis was:
+\begin{gather*}
+lmer(F1 \sim ToolTechniqueCombo + \notag\\
+             (1 | Participant) + (1 | Tool:Participant) + (1 | Technique:Participant), \notag\\ 
+     data = SOCO.Dn, REML = FALSE)
+\end{gather*} 
+and the null model was the same as written above. Recall that the term \textit{Participant} represents one subset assignment (e.g., Dn-1, Dn-2, Dn-3, etc.) from the D1, D2, D3 or D4 group of assignments.
+
+To perform the bootstrap hypothesis testing the function \textit{boot} from package \textit{boot} was used, and to get confidence intervals the function \textit{boot.ci} from package \textit{boot} was used or function \textit{bootMer} from the \textit{lme4} package. Models were compared using the \textit{PBmodcomp} function from the \textit{pbkrtest} package. The full list of packages used in R is presented in Appendix \ref{apx:rPackages}.
+
+\subsection{Results for D1 assignments}
+
+<<GlobalsD1assignment, echo=FALSE, include=FALSE>>= 
+  DATESET = "D1"
+  METRIC = "F1"
+  SOCO_D1 <- calculateResidualsFromModel(SOCO_D1, getFixedEffectsModel(SOCO_D1))
+
+  bsANOVA <- bsANOVA_SOCO_D1
+  bsSimpleEffects <- bsSimpleEffects_SOCO_D1
+@
+
+D1 assignments are created from the A1 assignment in the \gls{SOCO} dataset. 
+
+\begin{figure}
+	\centering 
+	<<FigureBoxPlotD13IRQ, echo=FALSE, warning=FALSE, fig.height=4, dev="png", dpi=300>>=
+	  drawBoxPlotbyToolAndTechnique(SOCO_D1, METRIC, DATESET)
+	@
+	\caption{F1 score for SOCO D1 assignment with 3*IRQ}\label{fig:FigureBoxPlotD13IRQ}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \minipage{0.32\textwidth}
+      <<Figure-Histogram-D1, echo=FALSE, warning=FALSE, fig.height=2,fig.width=3, dev="png", dpi=300>>=
+      showResidualHistogram(SOCO_D1)
+    	@
+%      \caption{A really Awesome Image}\label{fig:awesome_image1}
+    \endminipage\hfill 
+    \minipage{0.32\textwidth}
+      <<Figure-Q-Q-D1, echo=FALSE, warning=FALSE, fig.height=2,fig.width=3, dev="png", dpi=300>>=
+      showResidualQQPlot(SOCO_D1)
+    	@
+%      \caption{A really Awesome Image}\label{fig:awesome_image2}
+    \endminipage\hfill 
+    \minipage{0.32\textwidth}%
+      <<Figure-Scatter-D1, echo=FALSE, warning=FALSE, fig.height=2.64, fig.width=4, dev="png", dpi=300>>=
+      showResidualScatterPlot(SOCO_D1)
+    	@
+%      \caption{A really Awesome Image}\label{fig:awesome_image3}
+    \endminipage
+	\caption{D1 assignments - residuals}\label{fig:normalityD1F1}
+\end{figure}
+
+To confirm ...
+
+\begin{table}
+  \centering 
+  \caption{ANOVA results for SOCO D1}\label{tbl:anovaSOCOD1}
+	<<TableanovaSOCOD1, echo=FALSE, results='asis'>>=
+	  presentAnovaTable(bsANOVA)
+	@
+\end{table}
+
+Since ....
+
+\begin{figure}
+	\centering 
+	<<FigureMeanComparisonGraphSOCOD1, echo=FALSE, results='asis', dev="png", dpi=300>>=
+    showMeanComparisonGraph(SOCO_D1)
+  @
+	\caption{F1 mean comparison for SOCO D1}\label{fig:meanComparisonSOCOD1}
+\end{figure}
+
+To (Table \ref{tbl:anovaSOCOD1}).
+
+Figure \ref{fig:meanComparisonSOCOD1} .
+
+By looking at Figure \ref{fig:meanComparisonSOCOD1} .
+
+\begin{table}
+  \centering 
+  \caption{Contrasts results for SOCO D1}\label{tbl:coefficientsSOCOD1} 
+   <<TableCoefficientsSOCOD1, echo=FALSE, results='asis'>>=
+  	 presentCoeficientTable(bsANOVA) 
+  @
+\end{table}
+
+\begin{table}
+	\centering 
+	\caption{Simple effect analysis result for SOCO D1}\label{tbl:simpleEffectAnalysisSOCOD1}
+	<<TablesimpleEffectAnalysisSOCOD1, echo=FALSE, results='asis'>>=
+	presentSimpleEffectsCoeficientTable(bsSimpleEffects)
+	@
+\end{table}

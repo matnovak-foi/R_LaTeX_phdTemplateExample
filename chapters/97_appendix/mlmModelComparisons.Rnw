@@ -1,0 +1,71 @@
+<<GlobalsAppendixMLMComparisons, echo=FALSE, include=FALSE>>=
+  getBootstrapCompareModelsLRT <- function(dataFrame, fileName){
+    fileName <- paste0("../08_analysis/",fileName,"_LRT_bootstrap.RData")
+    result <- NULL
+    if(file.exists(fileName)){
+      load(fileName)
+    } else {
+      result <- compareModelsWithBootstrapLRT(dataFrame,10000)
+      save(result, file = fileName)
+    }
+    return(result)
+  }
+  
+  renameCompareModelTable <- function(bsLRT){
+    bsLRT$p.boot <- format(round(as.numeric(bsLRT$p.boot), 4), nsmall=4, scientific=FALSE)
+    bsLRT$`Pr(>Chisq)` <- format(round(as.numeric(bsLRT$`Pr(>Chisq)`), 4), nsmall=4, scientific=FALSE)
+   
+    #bsLRT <- dfmHelp$changeColumnNameInDataFrame(bsLRT,"Chi Df", "DF")
+    #bsLRT <- dfmHelp$changeColumnNameInDataFrame(bsLRT,"Df", "DF")
+   
+    rownames(bsLRT) <- c("NullModel", "ToolModel", "MainEffectsModel", "InteractionModel")
+    
+    return(bsLRT)
+  }
+  
+  bsLRT_SOCO_D1 <- getBootstrapCompareModelsLRT(SOCO_D1, "SOCO_D1")
+  
+  bsLRT_SOCO_D1 <- renameCompareModelTable(bsLRT_SOCO_D1)
+@
+
+The models that were compared are:
+
+\begin{itemize}
+
+\item NullModel
+\begin{gather*}
+lmer(F1 \sim (1 | Participant) + (1 | Tool:Participant) + (1 | Technique:Participant), \notag\\
+     data = SOCO.D_n, REML = FALSE)
+\end{gather*}
+
+\item ToolModel: 
+\begin{gather*}
+lmer(F1 \sim Tool + \notag\\
+             (1 | Participant) + (1 | Tool:Participant) + (1 | Technique:Participant), \notag\\ 
+     data = SOCO.D_n, REML = FALSE)
+\end{gather*}
+
+\item MainEffectsModel: 
+\begin{gather*}
+lmer(F1 \sim Tool + Technique + \notag\\
+             (1 | Participant) + (1 | Tool:Participant) + (1 | Technique:Participant), \notag\\ 
+     data = SOCO.D_n, REML = FALSE)
+\end{gather*}
+
+\item InteractionModel or FullModel: 
+\begin{gather*}
+lmer(F1 \sim Tool + Technique + Tool:Technique + \notag\\
+             (1 | Participant) + (1 | Tool:Participant) + (1 | Technique:Participant), \notag\\ 
+     data = SOCO.D_n, REML = FALSE)
+\end{gather*}
+
+\end{itemize}
+\begin{landscape}
+\begin{table}
+  \centering
+  \caption{\gls{MLM} comparison for SOCO D1}\label{tbl:mlmComparisonSOCOD1}
+	<<TablemlmComparisonSOCOD1, echo=FALSE, results='asis'>>=
+      presentTable(bsLRT_SOCO_D1)
+	@
+\end{table}
+\end{landscape}

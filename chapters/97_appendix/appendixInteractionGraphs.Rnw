@@ -1,0 +1,67 @@
+<<GlobalsAppendixInteractionGraphs, echo=FALSE, include=FALSE>>=
+  
+  showMeanComparisonGraph <- function(dataFrame) {
+    graphBuilderHelp$xAxisTitle = "Preprocessing technique"
+    graphBuilderHelp$yAxisTitle = "F1"
+    graphBuilderHelp$facetWrapVariable = NULL
+    graphBuilderHelp$xAxisLabelAngle = 90
+    graphBuilderHelp$legendTitle = "Tool"
+    graphBuilderHelp$graphTitle = ""
+    graphBuilderHelp$showMeanComparisonGraph(dataFrame,xVarName = TECHNIQUE_VAR,yVarName = DEPENDENT_VAR,legendVarName = TOOL_VAR)+
+       scale_color_manual(values=c("#F15854", "#5DA5DA", "#60BD68","#FAA43A","#4D4D4D","#F17CB0","#B2912F","#DECF3F")) 
+  }
+  
+  
+  prepareContrastInteractionGraphs <- function(dataFrame){
+    changeContrastToolNames <- function(dataFrame){
+      contrastNames <- colnames(contrasts(dataFrame$Tool))
+      contrastNames <- str_replace_all(contrastNames,"Text.SherlockvsOthers","Sherlock-textvsOther-text")
+      contrastNames <- str_replace_all(contrastNames,"Java.SherlockvsOthers","Sherlock-javavsOther-java")
+      contrastNames <- str_replace_all(contrastNames,"Text.SIMvsJPlag","SIM-textvsJPlag-text")
+      contrastNames <- str_replace_all(contrastNames,"Java.SIMvsJPlag","SIM-javavsJPlag-java")
+      colnames(contrasts(dataFrame$Tool)) <- contrastNames
+      return(dataFrame)
+    }
+      dataFrameInt <- changeContrastToolNames(dataFrame)
+    listInteractionGraphs <- getContrastInteractionGraphs(dataFrameInt,TECHNIQUE_VAR,TOOL_VAR, showMeanComparisonGraph)
+    return(listInteractionGraphs)
+  }
+  
+   showInteractionImages <-  function(dataFrame,dataFrameName) {
+    listInteractionGraphs <- prepareContrastInteractionGraphs(dataFrame)
+        cat("\\begin{figure}[ht]")	
+        cat("\\centering")
+        i=1;
+        for(graph in listInteractionGraphs){
+            if(i==10) break;
+            cat("\\minipage{0.32\\textwidth} ")
+            print(graph)
+            cat("\\subcaption{Interaction ",i,"}\\label{fig:interaction-",i,"for",dataFrameName,"}")
+            cat("\\endminipage\\hfill ")
+            i=i+1
+        }
+    	
+        cat("\\caption{Interaction graphs for ",dataFrameName," - part 1}\\label{fig:interaction",dataFrameName,"-part1}")
+        cat("\\end{figure}")
+    
+        cat("\\begin{figure}[ht]")	
+        cat("\\centering")
+        i=1;
+        for(graph in listInteractionGraphs){
+           if(i>9){
+               cat("\\minipage{0.32\\textwidth} ")
+                  print(graph)
+                  cat("\\subcaption{Interaction ",i,"}\\label{fig:interaction-",i,"for",dataFrameName,"}")
+                  cat("\\endminipage\\hfill ")
+                }
+              i=i+1
+            }
+
+  	    cat("\\caption{Interaction graphs for ",dataFrameName," - part 2}\\label{fig:interaction",dataFrameName,"-part2}")
+        cat("\\end{figure}")
+  }
+@
+
+ <<Figure-SOCO-INTERACTION, message=FALSE, echo=FALSE, warning=FALSE, fig.height=3, fig.width=3, results='asis', dev="png", dpi=300>>=
+  showInteractionImages(SOCO_D1,"SOCO D1")
+@

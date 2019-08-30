@@ -1,0 +1,43 @@
+\lipsum[1-4]
+
+\ldots 
+
+ \begin{figure}[tb]
+ 	\centering
+ 	<<ImageFigureDatabases, echo=FALSE, warning=FALSE, fig.height=4, dev="png", dpi=300>>=
+ 		apya$createArticlesInDatabasesPerLastXYearsBarChart(mydata.filtered,databases,"1980","2017") 	+
+       scale_fill_manual(values=c("#F15854", "#5DA5DA", "#4D4D4D", "#60BD68","#FAA43A","#F17CB0","#B2912F","#DECF3F")) 
+ 	@
+ 	\caption{Number of articles in databases per year}\label{fig:databases}
+ \end{figure}
+ 
+ \begin{figure}[tb]
+ 	\centering
+ 	<<ImageFigureCitations, echo=FALSE, warning=FALSE, fig.height=4, dev="png", dpi=300>>=
+ 		apya$createTopCitedArticlesPerYearDottedChartLogarimic(mydata.filtered)
+ 	@
+ 	\caption{Number of articles in databases per year}\label{fig:citations}
+ \end{figure}
+ 
+ 
+\subsection{Top authors}\label{sec:topAuthors}
+
+Another way of finding relevant papers was to search for main authors in the field. A....
+
+\begin{table} [bt]
+	\centering
+	\caption{Authors with most articles in SLR and most citations} \label{tbl:topAuthors}
+	\rowcolors{2}{gray!6}{white}
+	\begin{tabular}{l c c l} 
+		\toprule
+		& \textbf{Number of} & \textbf{Number of top} & \\
+		\textbf{Author} & \textbf{articles} & \textbf{cited articles} & \textbf{Articles}\\ 
+		\midrule 
+		J, J         & 7 & 3 & \cite{ryan1991motivational} \\
+		C, C   & 6 & 2 & \cite{ryan1991motivational}          \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{Research constraints}\label{sec:researchConstraints}
+

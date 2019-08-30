@@ -1,0 +1,63 @@
+\documentclass[a4paper, 12pt, oneside, openany, final, pdftex]{book}
+
+  \input{./template/infoConfiguration.tex}
+  
+  \input{./template/packagesConfig.tex}
+  
+  \input{./template/custom_environments.tex}
+  
+  \input{./template/additional_commands.tex}
+  
+  \input{./bibAndGlossary/glossary.tex} \makeglossaries
+  
+  \addbibresource{bibAndGlossary/myArticles.bib}
+  \addbibresource{bibAndGlossary/reviewArticles.bib}
+  \addbibresource{bibAndGlossary/reviewManualyAdded.bib}
+  \addbibresource{bibAndGlossary/otherArticlesPhd.bib}
+
+\begin{document}
+  \selectlanguage{english} %croatian
+  \restoregeometry
+  
+  \pdfbookmark{Title page}{titlePage}
+  \includepdf[pages=-]{./title-pages/allTitlePages.pdf}
+
+  \frontmatter
+    \pagenumbering{Roman}
+    
+    \input{./chapters/00_other/Acknowledgments.tex}
+    \input{./chapters/00_other/Abstract.tex}
+    \input{./chapters/00_other/ProsireniSazetak.tex}
+    \input{./chapters/00_other/Keywords.tex}
+    
+    \cleardoublepage
+    \pdfbookmark{Contents}{tableOfContents}
+    \fontsize{10}{11} \selectfont \tableofcontents
+    \normalsize \selectfont
+    
+    \cleardoublepage
+    \pdfbookmark[1]{List of figures}{figureList}
+    \listoffigures
+    
+    \cleardoublepage
+    \pdfbookmark[1]{List of tables}{tableList}
+    \listoftables
+    
+    % za pojasnjenje naredbi \cleardoublepage i \phantomsection
+    % pogledati:
+    % https://tex.stackexchange.com/questions/57427/how-to-add-printindex-to-tableofcontents
+    % https://tex.stackexchange.com/questions/9191/when-do-i-need-invoke-clearpage-manually
+    % https://tex.stackexchange.com/questions/44088/when-do-i-need-to-invoke-phantomsection
+    \cleardoublepage
+    \pdfbookmark[1]{Glossary}{glossary}
+    \printglossary[title=Glossary,toctitle=Terms and abbreviations]
+  
+  \mainmatter
+    <<includeAllChapters, child='./chapters/chapters.Rnw'>>= 
+    @
+    \printbibliography[heading=bibintoc, notcategory=fullcited]
+  
+  \backmatter
+  \input{./chapters/00_other/CV.tex}
+    
+\end{document}

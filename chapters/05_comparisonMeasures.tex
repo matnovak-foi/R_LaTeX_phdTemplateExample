@@ -1,0 +1,20 @@
+\lipsum[1-4]
+
+\ldots
+
+Performance Index is calculated as 
+\[Performance\_index=D_{max}*\frac{1}{(tp+fn)*(1-P_L)}\] 
+\begin{center}
+	\centering or 
+\end{center} 
+\[Performance\_Index=MAX_{1-esm}\Bigg(\Big(tp_{@esm}-esm*\frac{tp+fn}{\frac{N}{2}}\Big)*
+					\frac{1}{(tp+fn)*(1-\frac{tp+fn}{\frac{N}{2}})}\Bigg)\]
+where: N is number of submissions; tp – true positive essential matches, fn – false negative essential matches; esm is number of essential matches; tp@esm – true positives essential matches at the number of essential matches.
+
+\section{Precision, Recall and F-beta}\label{sec:PRF1}
+
+Precision and Recall are calculated as follows: 
+\[P = \frac{tp}{tp+fp}, \in [0,1] \ \ \ \ \ R = \frac{tp}{tp+fn}, \in [0,1] \]
+
+F-beta is calculated as follows: 
+\[F_\beta = \frac{(\beta^2 + 1) * P * R}{(\beta^2 * P) + R}, \in [0,1]\]

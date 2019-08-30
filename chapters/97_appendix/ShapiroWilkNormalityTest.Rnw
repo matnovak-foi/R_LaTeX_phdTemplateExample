@@ -1,0 +1,19 @@
+<<GlobalsAppendixsShapiroWilkTest, echo=FALSE, include=FALSE>>=
+PASSED = "Normal distribution"
+FAILED = "Non-normal distribution"
+
+SWtestD1 <- performShapiroWilkTest(SOCO_D1,0.01,PASSED,FAILED)
+@
+
+Results of Shapiro-Wilk normality test for SOCO dataset D1 assigmenets group:
+<<socoSWtestD1, echo=FALSE>>=
+  SWtestD1[PASSED]
+  SWtestD1[FAILED]
+@
+\clearpage
+Results of Shapiro-Wilk normality test for SOCO dataset D2 assigmenets group:
+<<socoSWtestD2, echo=FALSE>>=
+  SWtestD1[PASSED]
+  SWtestD1[FAILED]
+@
+\clearpage

@@ -1,0 +1,36 @@
+<<GlobalsChapterPreporcessing, echo=FALSE, include=FALSE>>=
+  mydata.filtered.ppTechniques <- mydata.filtered[!is.na(mydata.filtered$PPtechniques),]
+
+  #Inline: NumOfArticlesUsingPPTechniquesInReview
+  NumOfArticlesUsingPPTechniquesInReview <- oappma$numberOfArticlesUsingPPtechniques(mydata.filtered)
+  NumOfArticlesUsingPPTechniquesInReview <- as.String(NumOfArticlesUsingPPTechniquesInReview[1,"Count"])
+  
+  #Inline: articlesCiteMentioningPPTechniqueInReview
+  articlesCiteMentioningPPTechnique <- dfmHelp$createDataFrameOfPrintColumnValuesForColumns(mydata.filtered,c("PPtechniques",ppTechniques),"Citeref")
+  
+  presentPPExcelTable <- function(tableName, align = c()){
+	  preprocessingPretestResultExcel <- "07_PP_Techniques/PreporcessingPretestResults.xlsx"
+	  mydata <- loadSheetFromXMLFile(preprocessingPretestResultExcel,tableName) 
+	  presentTable(mydata, align)
+  }
+  
+  presentPPTestTable <- function(tableName, align = c()){
+  	presentPPExcelTable(tableName, align) %>%
+  	group_rows("Techniques", 2, 6) %>%
+  	group_rows("Combinations", 7, 11) %>%
+  	column_spec(6, border_left = T)
+  }
+@
+
+
+\begin{table}
+	\centering
+	\caption{JPlag-text and SIM-text PPTest result} \label{tbl:resultsPPTestText}
+	<<resultsPPTestText,  message=FALSE, echo=FALSE, warning=FALSE, results='asis'>>=
+	presentPPTestTable("JPlagSIMText") %>% 
+	add_header_above(c(" ", "JPlag Text" = 4, "SIM Text" = 4), bold = T) %>%
+	row_spec(2, bold = T) %>%
+	row_spec(5:7, bold = T) %>%
+	row_spec(11, bold = T)
+	@
+\end{table}

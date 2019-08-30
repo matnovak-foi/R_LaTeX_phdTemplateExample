@@ -1,0 +1,21 @@
+<<RincludeSourceFiles, echo=FALSE, include=FALSE>>=
+  source("chapters_header.R", encoding = "UTF-8")
+@
+
+\chapter{Introduction}\label{ch:introducion}
+
+\chapter{Result analysis}\label{ch:analysis}
+<<child='08_analysis.Rnw'>>= 
+@
+
+\chapter{Conclusion}\label{ch:conclusion}
+
+
+\begin{appendices}
+  \chapter{Interaction graphs}\label{apx:interactionGraphs}
+  
+  \chapter{Precision and Recall for RSS dataset}\label{apx:precisionRecallRSS}
+    <<child='97_appendix/appendixRSSPrecisionRecall.Rnw'>>=
+    @
+
+\end{appendices}

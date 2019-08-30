@@ -1,0 +1,51 @@
+<<RincludeSourceFiles, echo=FALSE, include=FALSE>>=
+  source("chapters_header.R", encoding = "UTF-8")
+@
+
+\chapter{Introduction}\label{ch:introducion}
+\input{./chapters/01_introduction.tex}
+
+\chapter{Related work}\label{ch:relatedwork}
+\input{./chapters/02_relatedWork.tex}
+
+\chapter{Methodology}\label{ch:methodology}
+<<child='03_Methodology.Rnw'>>= 
+@
+\chapter{Similarity detection tools}\label{ch:detectionTools}
+<<child='04_detectionTools.Rnw'>>= 
+@
+
+\chapter{Comparison measures}\label{ch:measures}
+\input{./chapters/05_comparisonMeasures.tex}
+
+\chapter{Preprocessing techniques}\label{ch:preporcessing}
+<<child='07_ppTechniques.Rnw'>>= 
+@
+
+\chapter{Result analysis}\label{ch:analysis}
+<<child='08_analysis.Rnw'>>= 
+@
+
+\chapter{Future work}\label{ch:futureWork}
+\input{./chapters/09_futureWork.tex}
+
+\chapter{Conclusion}\label{ch:conclusion}
+\input{./chapters/98_Conclusion.tex}
+
+\begin{appendices}
+  \chapter{Contrast codings}\label{apx:contrasts}
+  <<child='97_appendix/appendixContrastsCodings.Rnw'>>= 
+  @
+  \chapter{Shapiro-Wilk normality test}\label{apx:swnormtest}
+  <<child='97_appendix/ShapiroWilkNormalityTest.Rnw'>>= 
+  @
+  \chapter{Model comparisons}\label{apx:mlmModelcomparison}
+  <<child='97_appendix/mlmModelComparisons.Rnw'>>=
+  @
+  \chapter{Constrast effect sizes}\label{apx:contrastsEfectSizes}
+  <<child='97_appendix/appendixContrastsEfectSizes.Rnw'>>= 
+  @
+  \chapter{Interaction graphs}\label{apx:interactionGraphs}
+  <<child='97_appendix/appendixInteractionGraphs.Rnw'>>= 
+  @
+\end{appendices}

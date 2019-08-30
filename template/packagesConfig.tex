@@ -1,0 +1,275 @@
+% PAKETI
+
+% geometrija stranice
+% margine postavljene kao sto i pise u obrascu DR.SC.08
+\usepackage[margin=25mm,centering]{geometry} 
+
+% prihvaca tex kod kao UTF-8 omogućavajući
+% pisanje znakova s dijakriticima unutar datoteke
+% npr. možemo pisati 'č' umjesto č
+% PAZITI DA SU DATOTEKE STVARNO SPREMLJENE KAO UTF-8
+% nije korisno ako se namjerava koristiti 'latexdiff'
+\usepackage[utf8]{inputenc}
+
+% omogućiti ispisivanje naših znakova u dokumentu 
+\usepackage[T1]{fontenc}
+
+% koristi novu verziju fonta (Latin Modern)
+%\usepackage{lmodern}
+
+% Palatino font (blizu Arial-a)
+%\usepackage[sc]{mathpazo}
+\usepackage{uarial}
+
+% Times New Roman
+\usepackage{mathptmx}
+% ili
+%\usepackage{txfonts}
+
+% koristan paket kad stvaranja pdf-a
+\usepackage[activate={true,nocompatibility},
+	final,
+	tracking=true,
+	kerning=true,
+	spacing=true,
+	factor=1100,
+	stretch=10,
+	shrink=10]{microtype}
+\microtypecontext{spacing=nonfrench}
+%\usepackage{microtype}
+
+% babel !
+\usepackage[croatian, english]{babel}
+\usepackage{csquotes}
+%\usepackage{hyphenat}
+ 
+
+% captioni ce biti centrirani te će im ime biti podebljano. 
+\usepackage[center,labelfont=bf]{caption}
+
+%center command without adding spaces before and after
+\newenvironment{nscenter}
+ {\parskip=0pt\par\nopagebreak\centering}
+ {\par\noindent\ignorespacesafterend}
+
+% koristan paket za pisanje url-ova u tekstu
+\usepackage{url}
+
+% paketi za oblikovanje tablica
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\newcolumntype{t}{>{\ttfamily}c}
+
+% paketi za oblikovanje lista
+\usepackage[ampersand]{easylist}
+\usepackage{enumitem}
+
+% boje, bojice, jeee :D
+\usepackage{color}
+\usepackage[table]{xcolor}
+\definecolor{dark-red}{rgb}{0.4,0.15,0.15}
+\definecolor{dark-blue}{rgb}{0.15,0.15,0.4}
+\definecolor{medium-blue}{rgb}{0,0,0.5}
+\definecolor{black}{rgb}{0,0,0}
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345} %needed for R
+
+
+% dodatni simboli
+\usepackage{pifont}
+
+% glossaries
+\usepackage{supertabular}
+\usepackage[nomain,acronym,nonumberlist,style=list,translate=false]{glossaries}
+
+
+% prilagođavanje oblika naslova poglavalja (chapter),
+% potpoglavlja (section) i odjeljka (subsection)
+\usepackage{titlesec}
+	\titleformat{\chapter}[display]
+	{\normalfont \centering}%format
+	{\fontsize{10}{12} \selectfont \uppercase{chapter} \thechapter}%label
+	{0.5ex}%sep
+	{\fontsize{18}{20} \selectfont \bfseries \MakeUppercase} %before-title-code
+	[\vspace{-0.5ex} \rule{\textwidth}{0.3pt}] %after-title-code
+  \titlespacing*{\chapter}{0pt}{0pt}{6pt}	
+
+	\titleformat{\section}
+	{\normalfont \fontsize{16}{18} \selectfont \bfseries}%format
+	{\thesection}%label
+	{5pt}%sep
+	{}%before-title-code
+	\titlespacing*{\section}{0pt}{18pt}{6pt}
+	
+	\titleformat{\subsection}
+	{\normalfont \fontsize{14}{16} \selectfont \bfseries}%format
+	{\thesubsection}%label
+	{5pt}%sep
+	{}%before-title-code
+	\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+
+% crtanje !
+\usepackage{tikz}
+
+% verbatim env.
+\usepackage{moreverb}
+
+% multi tables/figures
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{makecell}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{wrapfig}
+
+%source code
+\usepackage{listings}
+\lstset{
+  language=Java,
+  basicstyle=\small,
+  breaklines=true
+  }
+
+% uklucivanje slika
+\usepackage{graphicx}
+\usepackage{epstopdf}
+
+% matematika
+\usepackage{amssymb ,amsmath, amsthm, amsfonts}
+\usepackage{enumitem}
+\allowdisplaybreaks[1]
+\usepackage{bbm}
+\usepackage{xfrac} % xfrac je koristan paket za umetanje razlomaka unutar teksta
+
+% headeri i footeri
+\usepackage{fancyhdr}
+
+% hack za fancyhdr i problem s headerheight-om
+% http://nw360.blogspot.com/2006/11/latex-headheight-is-too-small.html
+\setlength{\headheight}{15pt}
+
+% paketi za pisanje algoritama
+%\usepackage{algorithmic}
+\usepackage[croatian,	linesnumbered, onelanguage]{algorithm2e}
+
+% EUROPSKI NACIN RAZDVAJANJA ODLOMAKA
+%\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+%\setlength{\parindent}{0pt}
+
+% indentacija na prvom paragrafu u poglavlju
+\usepackage{indentfirst}
+
+% macroi, naredbe i slicno
+\usepackage{xparse}
+
+
+% podesi prored na 1.5
+\usepackage[onehalfspacing]{setspace}
+
+% dodaje random tekst
+\usepackage{lipsum}
+
+% paketi za referenciranje
+%\usepackage{varioref}
+%\usepackage{cleveref}
+
+% BIBLIOGRAFIJA
+
+% koristiti biber s dodatkom za hrvatski jezik
+% kod kompajliranja dokumenta!!!
+
+% paket za upravljanje bibliografijom
+%\usepackage[style=authoryear,citestyle=authoryear,doi=false,isbn=false,dashed=false,
+%  maxcitenames=2,maxbibnames=100]{biblatex}
+\usepackage[backend=bibtex,
+  doi=true,
+	isbn=true,
+	url=false,
+	maxbibnames=100,
+	defernumbers=true,
+	sorting=nyt,
+	style=ieee,
+	dashed=false,
+	citestyle=numeric-comp]{biblatex}
+\AtEveryBibitem{\clearfield{note}}
+
+% pogledati 
+% https://tex.stackexchange.com/questions/111363/exclude-fullcite-citation-from-bibliography
+% za objasnjenje sljedece tri linije
+% korisno ako zelimo printati s \fullcite bibligrafiju u zivotopisu
+% a taj se clanak ne pojavljuje citiran u ostatku disertacije
+\DeclareBibliographyCategory{fullcited}
+\newcommand{\mybibexclude}[1]{\addtocategory{fullcited}{#1}}
+
+% Izgled stranica (header, footer, ...)
+
+\fancypagestyle{plain}{
+	\fancyhf{} 
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+	\fancyfoot[R]{\thepage} 
+
+	% sljedeća linija dodaje u footer informaciju o trenutnoj verziji dokumenta
+	% potrebno ju je zakomentirati kod finalnog ispisa
+	\fancyfoot[L]{\nouppercase{\footnotesize \today : version \documentVersion}} 
+}
+
+\pagestyle{fancy}{
+	\fancyhf{} 
+	%\renewcommand{\headrulewidth}{0pt}
+	%\renewcommand{\footrulewidth}{0pt}
+	\rhead{\nouppercase{\footnotesize \leftmark}}
+	\fancyfoot[R]{\thepage} 
+
+	% sljedeća linija dodaje u footer informaciju o trenutnoj verziji dokumenta
+	% potrebno ju je zakomentirati kod finalnog ispisa
+	\fancyfoot[L]{\nouppercase{\footnotesize \today : version \documentVersion}} 
+}
+\pagestyle{fancy}
+
+% potrebno za dodavanje naslovnice u finalni dokument
+\usepackage{pdfpages}
+
+% postavi velicinu razmaka nakon znaka '.' (tocka) 
+% uvijek na istu vrijednost. Inace ce razmak biti
+% veci na kraju recenice nego kod skracenica npr.
+%\frenchspacing
+
+% korisno za provjeravanje dokumenta u finalnoj fazi
+%\usepackage{refcheck}
+%\usepackage{showkeys}
+
+% korisno za mjenjanje jedne stranice u landscape mode
+\usepackage{pdflscape}
+
+%appendix da se dobro prikazuje u popisu i u naslovu kod samog appendixa umjesto Chapter
+\usepackage[titletoc]{appendix}
+
+% paket za stvaranje poveznica u elektronskom
+% dokumentu. Koristan kod objavljivanja elektronskog
+% oblika dokumenta
+\usepackage[final]{hyperref}
+
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{naturalnames}{hyperref}
+
+\hypersetup{
+	unicode=true,       % non-Latin characters in Acrobat’s bookmarks
+	pdfauthor={\AuthorNameSurname},
+	pdftitle={\ThesisTitleEng},
+	pdfsubject={},
+	pdfkeywords={\ThesisKeywords},
+	colorlinks=true,    % false: boxed links; true: colored links
+	linkcolor={black},  % color of internal links (change box color with linkbordercolor)
+	citecolor={black},  % color of links to bibliography
+	urlcolor={black}    % color of external links
+}
+
+% za review
+\usepackage{soul} % precrtaj korisit \st{}
+\newcommand{\remove}[1]{\textcolor{red}{}}
+\newcommand{\add}[1]{\textcolor{blue}{#1}}

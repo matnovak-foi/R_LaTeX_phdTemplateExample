@@ -1,0 +1,241 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{nyt/global//global/global}
+  \entry{ryan1991motivational}{article}{}
+    \name{author}{2}{}{%
+      {{hash=DEL}{%
+         family={Deci},
+         familyi={D\bibinitperiod},
+         given={Edward\bibnamedelima L},
+         giveni={E\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=RRM}{%
+         family={Ryan},
+         familyi={R\bibinitperiod},
+         given={Richard\bibnamedelima M},
+         giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {University of Nebraska Press.}%
+    }
+    \strng{namehash}{DELRRM1}
+    \strng{fullhash}{DELRRM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{number}{237}
+    \field{pages}{237\bibrangedash 288}
+    \field{title}{{A motivational approach to self: Integration in
+  personality}}
+    \field{volume}{38}
+    \list{location}{1}{%
+      {Lincoln}%
+    }
+    \field{journaltitle}{Perspectives on motivation}
+    \field{year}{1990}
+  \endentry
+
+  \entry{hebb1985social}{incollection}{}
+    \name{author}{2}{}{%
+      {{hash=HDO}{%
+         family={Hebb},
+         familyi={H\bibinitperiod},
+         given={Donald\bibnamedelima O},
+         giveni={D\bibinitperiod\bibinitdelim O\bibinitperiod},
+      }}%
+      {{hash=TW}{%
+         family={Thompson},
+         familyi={T\bibinitperiod},
+         given={W.R.},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Random House}%
+    }
+    \strng{namehash}{HDOTW1}
+    \strng{fullhash}{HDOTW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{H}
+    \field{sortinithash}{H}
+    \field{booktitle}{G. Lindzey {\&} E. Aronson, Handbook of social
+  psychology}
+    \field{edition}{3rd ed}
+    \field{isbn}{978-0-8985-9720-2}
+    \field{pages}{729\bibrangedash 774}
+    \field{title}{{The social significance of animal studies}}
+    \list{location}{1}{%
+      {New York}%
+    }
+    \field{year}{1985}
+  \endentry
+
+  \entry{leach1995}{article}{}
+    \name{author}{1}{}{%
+      {{hash=LRJ}{%
+         family={Leach},
+         familyi={L\bibinitperiod},
+         given={Ronald\bibnamedelima J.},
+         giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LRJ1}
+    \strng{fullhash}{LRJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{L}
+    \field{sortinithash}{L}
+    \verb{doi}
+    \verb 10.1145/201998.202010
+    \endverb
+    \field{issn}{0097-8418}
+    \field{number}{2}
+    \field{pages}{41\bibrangedash 43}
+    \field{title}{{Using metrics to evaluate student programs}}
+    \verb{url}
+    \verb http://portal.acm.org/citation.cfm?doid=201998.202010
+    \endverb
+    \field{volume}{27}
+    \verb{file}
+    \verb :E$\backslash$:/FOI/Doktorski rad/Plagijati pretra{\v{z}}ivanja expor
+    \verb ts/clanci/1995 - Using metrics to evaluate student programs.pdf:pdf
+    \endverb
+    \field{journaltitle}{ACM SIGCSE Bulletin}
+    \field{year}{1995}
+  \endentry
+
+  \entry{novak2019}{article}{}
+    \name{author}{3}{}{%
+      {{hash=NM}{%
+         family={Novak},
+         familyi={N\bibinitperiod},
+         given={Matija},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=NM}{%
+         family={Novak},
+         familyi={N\bibinitperiod},
+         given={Matija},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=NM}{%
+         family={Novak},
+         familyi={N\bibinitperiod},
+         given={Matija},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NMNMNM1}
+    \strng{fullhash}{NMNMNM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{N}
+    \field{sortinithash}{N}
+    \field{abstract}{%
+    abstrac%
+    }
+    \verb{doi}
+    \verb 10.4018/101010101
+    \endverb
+    \field{issn}{21-321}
+    \field{number}{4}
+    \field{pages}{147\bibrangedash 171}
+    \field{title}{{Using}}
+    \verb{url}
+    \verb http://www.foi.hr
+    \endverb
+    \field{volume}{1}
+    \field{journaltitle}{International Journal}
+    \field{year}{2018}
+  \endentry
+
+  \entry{ottenstein1976}{article}{}
+    \name{author}{1}{}{%
+      {{hash=OKJ}{%
+         family={Ottenstein},
+         familyi={O\bibinitperiod},
+         given={K\bibnamedelima J},
+         giveni={K\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {ACM}%
+    }
+    \strng{namehash}{OKJ1}
+    \strng{fullhash}{OKJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{O}
+    \field{sortinithash}{O}
+    \verb{doi}
+    \verb 10.1145/382222.382462
+    \endverb
+    \field{issn}{0097-8418}
+    \field{number}{4}
+    \field{pages}{30\bibrangedash 41}
+    \field{title}{{An algorithmic approach to the detection and prevention of
+  plagiarism}}
+    \verb{url}
+    \verb http://doi.acm.org/10.1145/382222.382462 http://portal.acm.org/citati
+    \verb on.cfm?doid=382222.382462
+    \endverb
+    \field{volume}{8}
+    \list{location}{1}{%
+      {New York, USA}%
+    }
+    \verb{file}
+    \verb :E$\backslash$:/FOI/Doktorski rad/Plagijati pretra{\v{z}}ivanja expor
+    \verb ts/clanci/1976 - An Algorithmic Approach to the Detection and Prevent
+    \verb ion of Plagia.pdf:pdf
+    \endverb
+    \field{journaltitle}{ACM SIGCSE Bulletin}
+    \field{year}{1976}
+  \endentry
+
+  \entry{Saxon2000}{report}{}
+    \name{author}{1}{}{%
+      {{hash=SS}{%
+         family={Saxon},
+         familyi={S\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SS1}
+    \strng{fullhash}{SS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{{Comparison of plagiarism detection techniques applied to
+  student code}}
+    \list{location}{1}{%
+      {Cambridge, UK}%
+    }
+    \list{institution}{1}{%
+      {Part II . Computer Science project, Trinity College}%
+    }
+    \field{type}{techreport}
+    \field{year}{2000}
+  \endentry
+\enddatalist
+\endinput
