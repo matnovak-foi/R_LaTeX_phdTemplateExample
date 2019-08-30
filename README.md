@@ -18,7 +18,7 @@ along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 This project represents a template for phd thesis at Faculty of Organization and Informatics, University of Zagreb.
 
 The template contais R scripts, Rnw swave files were used to generate the phd thesis entitled "Effect of source-code preprocessing techniquers on plagiarsim detection accuracy in 
-student programming assignments".
+student programming assignments". The starting point is the main.Rnw which includes tex, Rnw and R files. The build will generate main.tex and then run LaTeX to build the main.tex file and genreate the main.pdf.
 
 Please note:
 
