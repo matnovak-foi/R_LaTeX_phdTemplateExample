@@ -1,5 +1,7 @@
 # R_LaTeX_phdTemplateExample
 
+The template is based on the forked project avalible at: https://github.com/matnovak-foi/unizgdoktoratljuska 
+
 R_LaTeX_phdTemplateExample (Version 1.0), Copyright (c) 2019 Matija Novak (matnovak@foi.hr).
 
 R_LaTeX_phdTemplateExample is free software: you can redistribute it and/or modify
