@@ -40,7 +40,7 @@ License for WilcoxRallfun-v35.R:
 #License: USC-RL v1.0
 #The Software is made available for academic or non-commercial purposes only. The license is for 
 #a copy of the program for an unlimited term. Individuals requesting a license for commercial use must pay for a commercial license.
-# USC Stevens Institute for Innovation University of Southern California
+#USC Stevens Institute for Innovation University of Southern California
 #1150 S. Olive Street, Suite 2300
 #Los Angeles, CA 90115, USA
 #ATTN: Accounting
